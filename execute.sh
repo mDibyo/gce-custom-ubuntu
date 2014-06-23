@@ -6,12 +6,12 @@ aptitude install squashfs-tools genisoimage
 
 echo "Setting up working directory"
 mkdir ~/livecdtmp
-mv ubuntu-11.04-desktop-amd64.iso ~/livecdtmp/
+mv ubuntu-14.04-desktop-amd64.iso ~/livecdtmp/
 cd ~/livecdtmp
 
 echo "Extracting contents of image"
 mkdir mnt
-mount -o loop ubuntu-9.04-desktop-i386.iso mnt
+mount -o loop ubuntu-14.04-desktop-amd64.iso mnt
 mkdir extract-cd
 rsync --exclude=/casper/filesystem.squashfs -a mnt/ extract-cd
 
