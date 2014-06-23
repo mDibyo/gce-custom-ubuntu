@@ -56,4 +56,4 @@ ntpdate time1.google.com
 EOF
 
 # Necessary google packages
-install kpartx ethtool
+apt-get install -y kpartx ethtool curl
