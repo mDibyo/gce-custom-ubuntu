@@ -37,6 +37,23 @@ dbus-uuidgen > /var/lib/dbus/machine-id
 dpkg-divert --local --rename --add /sbin/initctl
 ln -s /bin/true /sbin/initctl
 
+ln -s /lib/init/upstart-job /etc/init.d/whoopsie
+apt-get update
+apt-get upgrade -u -y
+
 apt-get remove --purge -y libreoffice*
 apt-get clean
 apt-get autoremove
+
+echo "Making changes required by Google Compute Engine"
+
+# Time related changes
+ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+sudo tee -a /etc/cron.hourly/ntpdate <<EOF
+#!/bin/bash
+
+ntpdate time1.google.com
+EOF
+
+# Necessary google packages
+install kpartx ethtool
