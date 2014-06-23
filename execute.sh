@@ -55,6 +55,8 @@ EOF
 
 # Necessary google packages
 apt-get install -y kpartx ethtool curl
+apt-get -f install 
+dpkg --configure curl rsync uuid-runtime
 wget https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/python-gcimagebundle_1.1.2-1_all.deb \
 https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/google-compute-daemon_1.1.2-1_all.deb \
 https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/google-startup-scripts_1.1.2-1_all.deb
@@ -102,7 +104,16 @@ net.ipv6.conf.default.disable_ipv6=1
 net.ipv6.conf.lo.disable_ipv6=1
 EOF
 
-
-
+echo "Cleaning up"
 apt-get clean
 apt-get autoremove
+
+rm /var/lib/dbus/machine-id
+rm /sbin/initctl
+dpkg-divert --rename --remove /sbin/initctl
+
+umount /proc || umount -lf /proc
+umount /sys
+umount /dev/pts
+exit
+umount edit/dev
