@@ -55,8 +55,12 @@ EOF
 
 # Necessary google packages
 apt-get install -y kpartx ethtool curl
-wget https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/python-gcimagebundle_1.1.2-1_all.deb https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/google-compute-daemon_1.1.2-1_all.deb https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/google-startup-scripts_1.1.2-1_all.deb
-dpkg -i google-compute-daemon_1.1.2-1_all.deb google-startup-scripts_1.1.2-1_all.deb python-gcimagebundle_1.1.2-1_all.deb
+wget https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/python-gcimagebundle_1.1.2-1_all.deb \
+https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/google-compute-daemon_1.1.2-1_all.deb \
+https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/google-startup-scripts_1.1.2-1_all.deb
+dpkg -i google-compute-daemon_1.1.2-1_all.deb \
+google-startup-scripts_1.1.2-1_all.deb \
+python-gcimagebundle_1.1.2-1_all.deb
 
 # Necessary configurations
 rm /etc/hostname
@@ -79,8 +83,25 @@ sed -i 's/^GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="console=ttyS0,115200n8 igno
 sed -i 's/^#GRUB_TERMINAL=console/GRUB_TERMINAL=console/' /etc/default/grub
 update-grub2
 
-# SSH changes
+# Network changes
 echo "GOOGLE" > /etc/ssh/sshd_not_to_be_run
+tee -a /etc/sysctl.d/12-gce-recommended.conf <<EOF
+# provides protection from ToCToU races
+fs.protected_hardlinks=1
+# provides protection from ToCToU races
+fs.protected_symlinks=1
+# makes locating kernel addresses more difficult
+kernel.kptr_restrict=1
+# set ptrace protections
+kernel.yama.ptrace_scope=1
+# set perf only available to root
+kernel.perf_event_paranoid=2
+# disable ipv6
+net.ipv6.conf.all.disable_ipv6=1
+net.ipv6.conf.default.disable_ipv6=1
+net.ipv6.conf.lo.disable_ipv6=1
+EOF
+
 
 
 apt-get clean
