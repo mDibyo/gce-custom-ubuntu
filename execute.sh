@@ -42,8 +42,6 @@ apt-get update
 apt-get upgrade -u -y
 
 apt-get remove --purge -y libreoffice*
-apt-get clean
-apt-get autoremove
 
 echo "Making changes required by Google Compute Engine"
 
@@ -57,3 +55,15 @@ EOF
 
 # Necessary google packages
 apt-get install -y kpartx ethtool curl
+wget https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/python-gcimagebundle_1.1.2-1_all.deb https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/google-compute-daemon_1.1.2-1_all.deb https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/google-startup-scripts_1.1.2-1_all.deb
+dpkg -i google-compute-daemon_1.1.2-1_all.deb google-startup-scripts_1.1.2-1_all.deb python-gcimagebundle_1.1.2-1_all.deb
+
+# Necessary configurations
+rm /etc/hostname
+echo "169.254.169.254 metadata.google.internal metadata" >> /etc/hosts
+ln -s /usr/share/google/set-hostname /etc/dhcp/dhclient-exit-hooks.d/
+
+
+
+apt-get clean
+apt-get autoremove
