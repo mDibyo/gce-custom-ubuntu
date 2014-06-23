@@ -47,7 +47,7 @@ echo "Making changes required by Google Compute Engine"
 
 # Time related changes
 ln -sf /usr/share/zoneinfo/UTC /etc/localtime
-sudo tee -a /etc/cron.hourly/ntpdate <<EOF
+tee -a /etc/cron.hourly/ntpdate <<EOF
 #!/bin/bash
 
 ntpdate time1.google.com
@@ -62,7 +62,25 @@ dpkg -i google-compute-daemon_1.1.2-1_all.deb google-startup-scripts_1.1.2-1_all
 rm /etc/hostname
 echo "169.254.169.254 metadata.google.internal metadata" >> /etc/hosts
 ln -s /usr/share/google/set-hostname /etc/dhcp/dhclient-exit-hooks.d/
+tee -a /etc/init/ttyS0.conf <<EOF
+# ttS0 - getty
+start on stopped rc or RUNLEVEL=[2345]
+stop on runlevel [!2345]
+respawn
+exec /sbin/getty -L 115200 ttyS0 vt102
+EOF
+tee -a /etc/default/grub <<EOF
 
+GRUB_CMDLINE_LINUX="console=ttyS0,115200n8 ignore_loglevel"
+GRUB_SERIAL_COMMAND="serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1"
+GRUB_TERMINAL=console
+EOF
+sed -i 's/^GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="console=ttyS0,115200n8 ignore_loglevel"\nGRUB_SERIAL_COMMAND="serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1"/' /etc/default/grub
+sed -i 's/^#GRUB_TERMINAL=console/GRUB_TERMINAL=console/' /etc/default/grub
+update-grub2
+
+# SSH changes
+echo "GOOGLE" > /etc/ssh/sshd_not_to_be_run
 
 
 apt-get clean
