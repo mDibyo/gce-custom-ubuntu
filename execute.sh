@@ -37,9 +37,9 @@ dbus-uuidgen > /var/lib/dbus/machine-id
 dpkg-divert --local --rename --add /sbin/initctl
 ln -s /bin/true /sbin/initctl
 
-ln -s /lib/init/upstart-job /etc/init.d/whoopsie
+# ln -s /lib/init/upstart-job /etc/init.d/whoopsie
 apt-get update
-apt-get upgrade -u -y
+# apt-get upgrade -u -y
 
 apt-get remove --purge -y libreoffice*
 
