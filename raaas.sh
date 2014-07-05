@@ -1,0 +1,1 @@
+apt-get install -y python-imaging libpng-dev libfreetype6 libfreetype6-dev
