@@ -10,3 +10,6 @@ apt-get install liblapack3gf liblapack-doc liblapack-dev
 apt-get install -y python-numpy python-setuptools
 easy_install pytz
 apt-get install -y python-numpy rabbitmq-server
+pip install cython simplejson tornado celery
+
+git pull https://github.com/rll/raas.git
