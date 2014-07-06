@@ -1,5 +1,14 @@
 sudo su
 
+# Time changes
+ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+apt-get install ntp -y
+sed -i 's/^server 0.ubuntu.pool.ntp.org/# server 0.ubuntu.pool.ntp.org/' /etc/ntp.conf
+sed -i 's/^server 1.ubuntu.pool.ntp.org/# server 1.ubuntu.pool.ntp.org/' /etc/ntp.conf
+sed -i 's/^server 2.ubuntu.pool.ntp.org/# server 2.ubuntu.pool.ntp.org/' /etc/ntp.conf
+sed -i 's/^server 3.ubuntu.pool.ntp.org/# server 3.ubuntu.pool.ntp.org/' /etc/ntp.conf
+sed -i 's/^server ntp.ubuntu.com/# Scratch all of that! Use only Google servers!\n# server ntp.ubuntu.com\nserver metadata.google.internal/' /etc/ntp.conf
+
 # Necessary google packages
 apt-get install -y curl
 wget https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/python-gcimagebundle_1.1.2-1_all.deb \
