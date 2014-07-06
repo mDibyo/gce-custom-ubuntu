@@ -91,3 +91,10 @@ PATH="$PATH:$HOME/bin" make
 make install
 make distclean
 hash -r
+
+https://github.com/jayrambhia/Install-OpenCV.git
+cd Install-OpenCV/Ubuntu/
+sed -i 's/^sudo apt-get -qq remove ffmpeg x264 libx264-dev/# sudo apt-get -qq remove ffmpeg x264 libx264-dev/' dependencies.sh
+sed -i 's/^install_dependency ffmpeg/# sinstall_dependency ffmpeg/' dependencies.sh
+
+./opencv_latest.sh
