@@ -13,3 +13,9 @@ apt-get install -y python-numpy rabbitmq-server
 pip install cython simplejson tornado celery
 
 git pull https://github.com/rll/raas.git
+export PYTHONPATH=$PYTHONPATH:/home/asl/raas/src:/home/asl/raas/src/raas_example
+
+sudo mkdir /opt/raas
+chown -R /opt/raas
+mkdir /opt/raas/code
+ln -s /home/asl/raas/scripts /opt/raas/code/bin
