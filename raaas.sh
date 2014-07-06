@@ -12,10 +12,14 @@ easy_install pytz
 apt-get install -y python-numpy rabbitmq-server
 pip install cython simplejson tornado celery
 
-git pull https://github.com/rll/raas.git
-export PYTHONPATH=$PYTHONPATH:/home/asl/raas/src:/home/asl/raas/src/raas_example
-
 sudo mkdir /opt/raas
 chown -R /opt/raas
+
+git clone --branch dibyo https://github.com/rll/raas.git /opt/raas/repo
+export PYTHONPATH=$PYTHONPATH:/opt/raas/repo/src:/opt/raas/repo/src/raas_example
+
 mkdir /opt/raas/code
-ln -s /home/asl/raas/scripts /opt/raas/code/bin
+ln -s /opt/raas/repo/scripts /opt/raas/code/bin
+ln -s /opt/raas/repo/src /opt/raas/code/src
+mkdir /opt/raas/datasets
+
