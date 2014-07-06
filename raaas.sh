@@ -14,14 +14,14 @@ pip install cython simplejson tornado celery
 
 sudo mkdir /opt/raas
 chown -R /opt/raas
+mkdir /opt/raas/code
+mkdir /opt/raas/datasets
 
 git clone --branch dibyo https://github.com/rll/raas.git /opt/raas/repo
 export PYTHONPATH=$PYTHONPATH:/opt/raas/repo/src:/opt/raas/repo/src/raas_example
 
-mkdir /opt/raas/code
 ln -s /opt/raas/repo/scripts /opt/raas/code/bin
 ln -s /opt/raas/repo/src /opt/raas/code/src
-mkdir /opt/raas/datasets
 
 sudo apt-get -y install autoconf automake build-essential libass-dev libfreetype6-dev libgpac-dev \
   libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libx11-dev \

@@ -87,6 +87,7 @@ update-grub2
 
 # Network changes
 echo "GOOGLE" > /etc/ssh/sshd_not_to_be_run
+rm /etc/ssh/ssh_host_*
 tee -a /etc/sysctl.d/12-gce-recommended.conf <<EOF
 # provides protection from ToCToU races
 fs.protected_hardlinks=1
