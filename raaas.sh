@@ -7,18 +7,21 @@ apt-get install -y python-imaging libpng-dev libfreetype6 libfreetype6-dev
 apt-get install libblas3gf libblas-doc libblas-dev
 apt-get install liblapack3gf liblapack-doc liblapack-dev
 
-apt-get install -y python-numpy python-setuptools
+apt-get install -y python-setuptools rabbitmq-server
 easy_install pytz
-apt-get install -y python-numpy rabbitmq-server
 pip install cython simplejson tornado celery
 
 sudo mkdir /opt/raas
-chown -R /opt/raas
+sudo chown -R asl:asl /opt/raas
 mkdir /opt/raas/code
 mkdir /opt/raas/datasets
 
 git clone --branch dibyo https://github.com/rll/raas.git /opt/raas/repo
+sudo tee -a /etc/bash.bashrc <<EOF
+
+# RAaaS path
 export PYTHONPATH=$PYTHONPATH:/opt/raas/repo/src:/opt/raas/repo/src/raas_example
+EOF
 
 ln -s /opt/raas/repo/scripts /opt/raas/code/bin
 ln -s /opt/raas/repo/src /opt/raas/code/src
@@ -92,8 +95,8 @@ make install
 make distclean
 hash -r
 
-https://github.com/jayrambhia/Install-OpenCV.git
-cd Install-OpenCV/Ubuntu/
+git clone https://github.com/jayrambhia/Install-OpenCV.git ~/Install-OpenCV
+cd ~/Install-OpenCV/Ubuntu/
 sed -i 's/^sudo apt-get -qq remove ffmpeg x264 libx264-dev/# sudo apt-get -qq remove ffmpeg x264 libx264-dev/' dependencies.sh
 sed -i 's/^install_dependency ffmpeg/# sinstall_dependency ffmpeg/' dependencies.sh
 
