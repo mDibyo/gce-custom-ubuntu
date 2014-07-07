@@ -26,13 +26,16 @@ EOF
 ln -s /opt/raas/repo/scripts /opt/raas/code/bin
 ln -s /opt/raas/repo/src /opt/raas/code/src
 
-sudo apt-get -y install autoconf automake build-essential libass-dev libfreetype6-dev libgpac-dev \
+sudo apt-get -y install autoconf automake libass-dev libfreetype6-dev libgpac-dev \
   libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libx11-dev \
   libxext-dev libxfixes-dev pkg-config texi2html zlib1g-dev
 mkdir ~/ffmpeg_sources
 
 
 sudo apt-get install yasm
+sudo apt-get install libmp3lame-dev
+sudo apt-get install libopus-dev
+sudo apt-get install unzip
 
 cd ~/ffmpeg_sources
 wget http://download.videolan.org/pub/x264/snapshots/last_x264.tar.bz2
@@ -43,12 +46,6 @@ PATH="$PATH:$HOME/bin" make
 make install
 make distclean
 
-sudo apt-get install libmp3lame-dev
-
-sudo apt-get install libopus-dev
-
-
-sudo apt-get install unzip
 cd ~/ffmpeg_sources
 wget -O fdk-aac.zip https://github.com/mstorsjo/fdk-aac/zipball/master
 unzip fdk-aac.zip
