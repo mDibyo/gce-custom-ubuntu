@@ -67,7 +67,7 @@ kernel.perf_event_paranoid=2
 net.ipv6.conf.all.disable_ipv6=1
 net.ipv6.conf.default.disable_ipv6=1
 net.ipv6.conf.lo.disable_ipv6=1
-EOF
+EOF 
 
 # Patch gcimagebundle file
 sed -i 's/^import json/import json\nfrim urllib2 import URLError/' /usr/lib/python2.7/dist-packages/gcimagebundlelib/manifest.py
@@ -77,4 +77,5 @@ sed -i "s/^  response = self._http.GetMetadata(\'instance/\', recursive=True)/  
 curl https://sdk.cloud.google.com | bash
 
 gcimagebundle -d /dev/sda -r / -o /tmp --loglevel=DEBUG --log_file=/tmp/image_bundle.log
-
+gsutil config
+gsutil cp /tmp/3b685902c9c073d005ce4eaed90b7291313ec216.image.tar.gz gs://raaas-ubuntu-images/ubuntu14-server-raaas.image.tar.gz
