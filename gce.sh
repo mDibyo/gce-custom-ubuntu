@@ -10,13 +10,23 @@ sed -i 's/^server 3.ubuntu.pool.ntp.org/# server 3.ubuntu.pool.ntp.org/' /etc/nt
 sed -i 's/^server ntp.ubuntu.com/# Scratch all of that! Use only Google servers!\n# server ntp.ubuntu.com\nserver metadata.google.internal/' /etc/ntp.conf
 
 # Necessary google packages
-apt-get install -y curl
+apt-get install -y kpartx
 wget https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/python-gcimagebundle_1.1.2-1_all.deb \
 https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/google-compute-daemon_1.1.2-1_all.deb \
 https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/google-startup-scripts_1.1.2-1_all.deb
 dpkg -i google-compute-daemon_1.1.2-1_all.deb \
 google-startup-scripts_1.1.2-1_all.deb \
 python-gcimagebundle_1.1.2-1_all.deb
+wget https://storage.googleapis.com/pub/gsutil.tar.gz
+tar xfz gsutil.tar.gz -C $HOME
+tee -a /etc/bash.bashrc <<EOF
+
+# Google path changes
+export PATH=${PATH}:$HOME/gsutil
+EOF
+source /etc/bash.bashrc
+gsutil update
+
 
 # Necessary configurations
 sudo rm /etc/hostname
@@ -58,3 +68,13 @@ net.ipv6.conf.all.disable_ipv6=1
 net.ipv6.conf.default.disable_ipv6=1
 net.ipv6.conf.lo.disable_ipv6=1
 EOF
+
+# Patch gcimagebundle file
+sed -i 's/^import json/import json\nfrim urllib2 import URLError/' /usr/lib/python2.7/dist-packages/gcimagebundlelib/manifest.py
+sed -i "s/^  response = self._http.GetMetadata(\'instance/\', recursive=True)/  try:\n    response = self._http.GetMetadata(\'instance/\', recursive=True)/" /usr/lib/python2.7/dist-packages/gcimagebundlelib/manifest.py
+
+# Prepare image bundle
+curl https://sdk.cloud.google.com | bash
+
+gcimagebundle -d /dev/sda -r / -o /tmp --loglevel=DEBUG --log_file=/tmp/image_bundle.log
+
