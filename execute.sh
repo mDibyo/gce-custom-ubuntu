@@ -55,7 +55,6 @@ EOF
 
 # Necessary google packages
 apt-get install -y kpartx ethtool curl
-apt-get -f install 
 dpkg --configure curl rsync uuid-runtime
 wget https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/python-gcimagebundle_1.1.2-1_all.deb \
 https://github.com/GoogleCloudPlatform/compute-image-packages/releases/download/1.1.2/google-compute-daemon_1.1.2-1_all.deb \
