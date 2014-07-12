@@ -17,7 +17,7 @@ sudo chown -R asl:asl /opt/raas
 mkdir /opt/raas/code
 mkdir /opt/raas/datasets
 
-git clone --branch dibyo https://github.com/rll/raas.git /opt/raas/repo
+git clone --branch dibyo https://github.com /rll/raas.git /opt/raas/repo
 sudo tee -a /etc/bash.bashrc <<EOF
 
 # RAaaS path

@@ -1,3 +1,5 @@
+# http://doit-intl.com/blog/2014/5/31/how-to-install-ubuntu-server-on-gce
+
 sudo su
 
 # Time changes
@@ -67,14 +69,15 @@ kernel.perf_event_paranoid=2
 net.ipv6.conf.all.disable_ipv6=1
 net.ipv6.conf.default.disable_ipv6=1
 net.ipv6.conf.lo.disable_ipv6=1
-EOF 
+EOF
 
 # Patch gcimagebundle file
-sed -i 's/^import json/import json\nfrim urllib2 import URLError/' /usr/lib/python2.7/dist-packages/gcimagebundlelib/manifest.py
+sed -i 's/^import json/import json\nfrom urllib2 import URLError/' /usr/lib/python2.7/dist-packages/gcimagebundlelib/manifest.py
 sed -i "s/^  response = self._http.GetMetadata(\'instance/\', recursive=True)/  try:\n    response = self._http.GetMetadata(\'instance/\', recursive=True)/" /usr/lib/python2.7/dist-packages/gcimagebundlelib/manifest.py
 
 # Prepare image bundle
 curl https://sdk.cloud.google.com | bash
+source /etc/bash.bashrc
 
 gcimagebundle -d /dev/sda -r / -o /tmp --loglevel=DEBUG --log_file=/tmp/image_bundle.log
 gsutil config
