@@ -99,3 +99,8 @@ sed -i 's/^sudo apt-get -qq remove ffmpeg x264 libx264-dev/# sudo apt-get -qq re
 sed -i 's/^install_dependency ffmpeg/# sinstall_dependency ffmpeg/' dependencies.sh
 
 ./opencv_latest.sh
+
+# Installing Docker
+sudo apt-get install -y docker.io
+sudo ln -sf /usr/bin/docker.io /usr/local/bin/docker
+sudo sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker.io
