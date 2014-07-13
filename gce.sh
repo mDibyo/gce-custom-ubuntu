@@ -80,5 +80,6 @@ curl https://sdk.cloud.google.com | bash
 source /etc/bash.bashrc
 
 gcimagebundle -d /dev/sda -r / -o /tmp --loglevel=DEBUG --log_file=/tmp/image_bundle.log
-gsutil config
+gcloud auth login
+gcloud config set project nth-clone-620
 gsutil cp /tmp/3b685902c9c073d005ce4eaed90b7291313ec216.image.tar.gz gs://raaas-ubuntu-images/ubuntu14-server-raaas.image.tar.gz
